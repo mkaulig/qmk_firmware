@@ -58,10 +58,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_ALPHA] = LAYOUT(
-      KC_ESC, DE_X        , DE_V        , DE_L        , DE_C        , DE_W ,                                   DE_K , DE_H        , DE_G        , DE_F        , DE_Q        , DE_SS,
-      KC_TAB, LCTL_T(DE_U), LALT_T(DE_I), LSFT_T(DE_A), LGUI_T(DE_E), DE_O ,                                   DE_S , RGUI_T(DE_N), RSFT_T(DE_R), LALT_T(DE_T), RCTL_T(DE_D), DE_Y ,
-      KC_NO , DE_UDIA     , DE_ODIA     , DE_ADIA     , DE_P        , DE_Z , KC_NO , KC_NO,     KC_NO, KC_NO , DE_B , DE_M        , DE_COMM     , DE_DOT      , DE_J        , KC_NO,
-                                          RGB_MOD     , KC_NO       , FKEYS, KC_ENT, NAV  ,     SYM  , KC_SPC, KC_NO, KC_NO       , KC_NO
+      KC_ESC, DE_X        , DE_V        , DE_L        , DE_C        , DE_W ,                                   DE_K   , DE_H        , DE_G        , DE_F        , DE_Q        , DE_SS,
+      KC_TAB, LCTL_T(DE_U), LALT_T(DE_I), LSFT_T(DE_A), LGUI_T(DE_E), DE_O ,                                   DE_S   , RGUI_T(DE_N), RSFT_T(DE_R), LALT_T(DE_T), RCTL_T(DE_D), DE_Y ,
+      KC_NO , DE_UDIA     , DE_ODIA     , DE_ADIA     , DE_P        , DE_Z , KC_NO , KC_NO,     KC_NO, KC_NO , DE_B   , DE_M        , DE_COMM     , DE_DOT      , DE_J        , KC_NO,
+                                          RGB_TOG     , RGB_VAI     , FKEYS, KC_ENT, NAV  ,     SYM  , KC_SPC, RGB_VAD, RGB_VAI     , KC_NO
     ),
 
 /*
@@ -219,7 +219,7 @@ bool oled_task_user(void) {
 #ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
   rgblight_enable(); // Enables RGB, without saving settings
-  rgblight_sethsv(HSV_PURPLE);
-  rgblight_mode(RGBLIGHT_MODE_SNAKE);
+  rgblight_sethsv(HSV_ORANGE);
+  rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
 }
 #endif
