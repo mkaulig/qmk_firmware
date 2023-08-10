@@ -47,13 +47,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Base Layer: Neo Base
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |  Tab   |   X  |   V  |   L  |   C  |   W  |                              |   K  |   H  |   G  |   F  |   Q  |  ẞ     |
+ * |  Esc   |   X  |   V  |   L  |   C  |   W  |                              |   K  |   H  |   G  |   F  |   Q  |  ẞ     |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |  Esc   |   U  |   I  |   A  |   E  |   O  |                              |   S  |   N  |   R  |   T  |   D  |  Y     |
+ * |  Tab   |   U  |   I  |   A  |   E  |   O  |                              |   S  |   N  |   R  |   T  |   D  |  Y     |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |   Ü  |   Ö  |   Ä  |   P  |   Z  |      |      |  |      |      |   B  |   M  |   ,  |   .  |   J  |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      | FKeys| Enter|  Nav |  | Sym  | Space|      |      |      |
+ *                        | RGB  |      | FKeys| Enter|  Nav |  | Sym  | Space|      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC, DE_X        , DE_V        , DE_L        , DE_C        , DE_W ,                                   DE_K , DE_H        , DE_G        , DE_F        , DE_Q        , DE_SS,
       KC_TAB, LCTL_T(DE_U), LALT_T(DE_I), LSFT_T(DE_A), LGUI_T(DE_E), DE_O ,                                   DE_S , RGUI_T(DE_N), RSFT_T(DE_R), LALT_T(DE_T), RCTL_T(DE_D), DE_Y ,
       KC_NO , DE_UDIA     , DE_ODIA     , DE_ADIA     , DE_P        , DE_Z , KC_NO , KC_NO,     KC_NO, KC_NO , DE_B , DE_M        , DE_COMM     , DE_DOT      , DE_J        , KC_NO,
-                                          KC_NO       , KC_NO       , FKEYS, KC_ENT, NAV  ,     SYM  , KC_SPC, KC_NO, KC_NO       , KC_NO
+                                          RGB_MOD     , KC_NO       , FKEYS, KC_ENT, NAV  ,     SYM  , KC_SPC, KC_NO, KC_NO       , KC_NO
     ),
 
 /*
@@ -217,45 +217,9 @@ bool oled_task_user(void) {
 #endif
 
 #ifdef RGBLIGHT_ENABLE
-// Backlight timeout feature
-#define BACKLIGHT_TIMEOUT 5    // in minutes
-static uint16_t idle_timer = 0;
-static uint8_t halfmin_counter = 0;
-static bool rgb_on = true;
-
-void matrix_scan_user(void) {
-  // idle_timer needs to be set one time
-    if (idle_timer == 0) idle_timer = timer_read();
-        if (rgb_on && timer_elapsed(idle_timer) > 30000) {
-            halfmin_counter++;
-            idle_timer = timer_read();
-        }
-
-        if (rgb_on && halfmin_counter >= BACKLIGHT_TIMEOUT * 2) {
-			rgblight_disable_noeeprom();
-			rgb_on = false;
-            halfmin_counter = 0;
-        }
-};
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        
-            if (rgb_on == false) {
-		        rgblight_enable_noeeprom();
-	            rgb_on = true;
-            }
-        idle_timer = timer_read();
-        halfmin_counter = 0;
-    }
-    return true;
-  }
-#endif
-
-#ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
-  rgblight_enable_noeeprom(); // Enables RGB, without saving settings
-  rgblight_sethsv_noeeprom(HSV_PURPLE);
-  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+  rgblight_enable(); // Enables RGB, without saving settings
+  rgblight_sethsv(HSV_PURPLE);
+  rgblight_mode(RGBLIGHT_MODE_SNAKE);
 }
 #endif
