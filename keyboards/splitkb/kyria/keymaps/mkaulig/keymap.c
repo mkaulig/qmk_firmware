@@ -218,7 +218,6 @@ bool oled_task_user(void) {
 
 #ifdef RGBLIGHT_ENABLE
 void keyboard_post_init_user(void) {
-  rgblight_enable(); // Enables RGB, without saving settings
   rgblight_sethsv(HSV_ORANGE);
   rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
 }
